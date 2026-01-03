@@ -1,0 +1,71 @@
+---
+// Section.astro
+---
+<section class="relative mx-auto w-11/12 p-4 sm:p-6 md:p-8 lg:p-12">
+  <!-- Contenedor principal con efecto de difuminado en bordes -->
+  <div class="relative rounded-[32px] bg-[#EFE9DE] overflow-hidden shadow-sm 
+              before:absolute before:inset-0 before:bg-gradient-to-b before:from-white/30 before:to-transparent before:pointer-events-none
+              after:absolute after:inset-0 after:bg-gradient-to-t after:from-white/20 after:to-transparent after:pointer-events-none">
+
+    <!-- Contenido -->
+    <div class="relative grid grid-cols-1 lg:grid-cols-2 items-center gap-8 md:gap-12 p-8 md:p-12 lg:p-16 
+                backdrop-blur-[2px] bg-gradient-to-br from-white/10 to-transparent">
+
+      <!-- BLOQUE IMÁGENES -->
+      <div class="relative h-[320px] md:h-[380px] lg:h-[420px] order-2 lg:order-1">
+        <!-- Círculo -->
+        <div class="absolute right-0 top-1/2 -translate-y-1/2
+                    w-[280px] md:w-[320px] lg:w-[360px] 
+                    h-[280px] md:h-[320px] lg:h-[360px] 
+                    rounded-full bg-[#5E6B63]
+                    flex items-center justify-center text-white text-sm
+                    shadow-xl shadow-black/10
+                    backdrop-blur-[2px]">
+          FOTO
+        </div>
+
+        <!-- Rectángulo -->
+        <div class="absolute left-0 top-1/2 -translate-y-1/2
+                    w-[180px] md:w-[200px] lg:w-[220px] 
+                    h-[240px] md:h-[280px] lg:h-[300px] 
+                    bg-white/95 backdrop-blur-sm
+                    shadow-xl shadow-black/10 
+                    flex items-center justify-center text-sm
+                    border border-white/30">
+          FOTO
+        </div>
+      </div>
+
+      <!-- BLOQUE TEXTO -->
+      <div class="space-y-4 md:space-y-6 order-1 lg:order-2">
+        <p class="text-sm md:text-base text-neutral-600 font-medium">Invitación a la acción</p>
+        <h2 class="text-xl md:text-2xl lg:text-3xl text-neutral-800 font-semibold leading-tight">
+          Tagline o lema de la marca + propuesta de valor.
+        </h2>
+        <div class="space-y-2">
+          <p class="text-4xl md:text-5xl lg:text-6xl font-bold text-[#5E6B63]">
+            95%
+          </p>
+          <p class="text-sm md:text-base text-neutral-600">
+            Números de satisfacción reducido a cifras
+          </p>
+        </div>
+
+        <button class="mt-6 md:mt-8 rounded-full border-2 border-[#5E6B63] 
+                      px-6 md:px-8 py-2.5 md:py-3 text-sm md:text-base 
+                      text-[#5E6B63] font-medium hover:bg-[#5E6B63] 
+                      hover:text-white transition-all duration-300 cursor-pointer 
+                      shadow-sm hover:shadow-md">
+          EXPLORAR PLANES
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Efecto de gradiente difuminado en esquinas -->
+    <div class="absolute top-0 left-0 w-32 h-32 bg-gradient-to-br from-white/40 to-transparent 
+                rounded-[32px] blur-xl pointer-events-none"></div>
+    <div class="absolute bottom-0 right-0 w-32 h-32 bg-gradient-to-tl from-white/30 to-transparent 
+                rounded-[32px] blur-xl pointer-events-none"></div>
+  </div>
+</section>

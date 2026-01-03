@@ -1,0 +1,31 @@
+@import "tailwindcss";
+
+@font-face {
+    font-family: Tprincipal;
+    src: url('/src/assets/fonts/Tprincipal.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: Tsecundaria;
+    src: url('/src/assets/fonts/Tsecundaria.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: Ttercera;
+    src: url('/src/assets/fonts/Ttercera.woff2') format('woff2');
+    font-weight: 400;
+    font-style: italic !important;
+    font-display: swap;
+}
+
+@theme {
+    --font-principal: Tprincipal;
+    --font-secundaria: Tsecundaria;
+    --font-tercera: Ttercera;
+}
