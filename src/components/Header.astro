@@ -1,6 +1,16 @@
+---
+import menuIcon from './icons/menu.astro';
+---
+
 <nav class="fixed w-full z-20 top-0 start-0 border-b border-none">
     <div class="w-full">
         <div class="flex items-center justify-end h-12 px-4 sm:px-6 lg:px-8">
+            <button id="menuButton"
+            class="sm:hidden p-2 mr-4 rounded-md text-[var(--color-verde)] hover:bg-gray-100
+            focus:outline-none"
+            aria-label="Abrir menú">
+            <menuIcon>
+            </button>
             <div class="flex items-center gap-6">
                 <a href="/" class="no-underline text-[var(--color-verde)] font-principal text-sm hover:text-[#d2b29a]">HOME</a>
                 <a href="/services" class="no-underline text-[var(--color-verde)] font-principal text-sm hover:text-[#d2b29a]">SERVICIOS</a>
