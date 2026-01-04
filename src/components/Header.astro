@@ -1,24 +1,40 @@
----
-import menuIcon from './icons/menu.astro';
----
-
 <nav class="fixed w-full z-20 top-0 start-0 border-b border-none">
-    <div class="w-full">
+    <div class="w-full mb-8">
         <div class="flex items-center justify-end h-12 px-4 sm:px-6 lg:px-8">
-            <button id="menuButton"
-            class="sm:hidden p-2 mr-4 rounded-md text-[var(--color-verde)] hover:bg-gray-100
-            focus:outline-none"
-            aria-label="Abrir menú">
-            <menuIcon>
+            <button data-collapse-toggle="navbar-default" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-body rounded-base md:hidden hover:bg-neutral-secondary-soft hover:text-heading focus:outline-none focus:ring-2 focus:ring-neutral-tertiary mt-2" aria-controls="navbar-default" aria-expanded="false">
+                <span class="sr-only">Abir menu</span>
+                <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M5 7h14M5 12h14M5 17h14"/></svg>
             </button>
-            <div class="flex items-center gap-6">
-                <a href="/" class="no-underline text-[var(--color-verde)] font-principal text-sm hover:text-[#d2b29a]">HOME</a>
-                <a href="/services" class="no-underline text-[var(--color-verde)] font-principal text-sm hover:text-[#d2b29a]">SERVICIOS</a>
-                <a href="/about" class="no-underline text-[var(--color-verde)] font-principal text-sm hover:text-[#d2b29a]">NOSOTROS</a>
-                <a href="/blog" class="no-underline text-[var(--color-verde)] font-principal text-sm hover:text-[#d2b29a]">BLOG</a>
-                <a href="/call" 
-                class= "font-tercera italic font-light text-white text-sm rounded-2xl px-4 no-underline bg-[#d2b29a] hover:bg-transparent focus:ring-4">Reservar llamada</a>
+            <div class="hidden w-full md:flex md:w-auto md:items-center" id="navbar-default">
+                <ul class="flex flex-col w-full p-4 md:p-0 border border-default rounded-base bg-neutral-secondary-soft md:flex-row md:space-x-8 rtl:space-x-reverse md:border-0 md:bg-neutral-primary">
+                    <a href="/" class="no-underline text-[var(--color-verde)] font-principal text-sm hover:text-[#d2b29a]">HOME</a>
+                    <a href="/services" class="no-underline text-[var(--color-verde)] font-principal text-sm hover:text-[#d2b29a]">SERVICIOS</a>
+                    <a href="/about" class="no-underline text-[var(--color-verde)] font-principal text-sm hover:text-[#d2b29a]">NOSOTROS</a>
+                    <a href="/blog" class="no-underline text-[var(--color-verde)] font-principal text-sm hover:text-[#d2b29a]">BLOG</a>
+                    <a href="/call" 
+                    class= "font-tercera italic font-light text-white text-sm rounded-2xl px-4 no-underline bg-[#d2b29a] hover:bg-transparent focus:ring-4">Reservar llamada</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="mobile-menu-overlay" class="fixed inset-0 z-30 hidden">
+        <div class="fixed inset-0 bg-transparent bg-opacity-10" id="menu-backdrop"></div>
+        <div class="fixed right-0 top-0 h-full w-64 bg-white shadow-lg transform translate-x-full transition-transform duration-300">
+            <button class="absolute top-4 right-4 text-gray-600 hover:text-gray-900" id="close-menu">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+            <div class="p-6 mt-12">
+                <ul class="flex flex-col space-y-2">
+                    <a href="/" class="no-underline text-[var(--color-verde)] font-principal text-l hover:text-[#d2b29a] block">HOME</a>
+                    <a href="/services" class="no-underline text-[var(--color-verde)] font-principal text-l hover:text-[#d2b29a] block">SERVICIOS</a>
+                    <a href="/about" class="no-underline text-[var(--color-verde)] font-principal text-l hover:text-[#d2b29a] block">NOSOTROS</a>
+                    <a href="/blog" class="no-underline text-[var(--color-verde)] font-principal text-l hover:text-[#d2b29a] block">BLOG</a>
+                    <a href="/blog" class="no-underline text-[var(--color-verde)] font-principal text-l hover:text-[#d2b29a] block">RESERVAR LLAMADA</a>
+                </ul>
             </div>
         </div>
     </div>
 </nav>
+<script src="/src/components/scripts/header.js"></script>
