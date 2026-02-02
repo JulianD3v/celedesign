@@ -1,7 +1,12 @@
+---
+import { Image } from 'astro:assets';
+import bannerImage from '../assets/images/banner.webp';
+---
+
 <div class="relative w-full h-auto">
-    <img
+    <Image
       class="w-full h-auto object-cover"
-      src="src/assets/images/banner.webp" 
+      src={bannerImage}
       alt="Banner Image" 
     />
 

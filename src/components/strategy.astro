@@ -1,7 +1,12 @@
+---
+import { Image } from 'astro:assets';
+import strategyImage from '../assets/images/estrategia.webp';
+---
+
 <div class="relative w-full h-screen">
-    <img
+    <Image
       class="w-full h-auto object-cover"
-      src="src/assets/images/estrategia.webp" 
+      src={strategyImage} 
       alt="Strategy Image" 
     />
 </div>
