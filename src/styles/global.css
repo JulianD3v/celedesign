@@ -1,1 +1,120 @@
 @import "tailwindcss";
+@import "tailwind-animations";
+
+@font-face {
+  font-family: "Edwardian";
+  src: url("../assets/fonts/edwardianscriptitc.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "LibreFranklin Italic";
+  src: url("../assets/fonts/LibreFranklin-Italic-VariableFont_wght.ttf")
+    format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "LibreFranklin Variable";
+  src: url("../assets/fonts/LibreFranklin-VariableFont_wght.ttf")
+    format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Palatbol";
+  src: url("../assets/fonts/Palatbol.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Palatia";
+  src: url("../assets/fonts/Palatia.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Palatita";
+  src: url("../assets/fonts/Palatita.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Chopin-Light";
+  src: url("../assets/fonts/Chopin-Light.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  /* Aqui se escriben las Font Family personalizadas. */
+
+  --font-edwardian: "Edwardian", ui-sans-serif, system-ui, sans-serif;
+  --font-libre-franklin-italic:
+    "LibreFranklin Italic", ui-sans-serif, system-ui, sans-serif;
+  --font-libre-franklin-variable:
+    "LibreFranklin Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-palatbol: "Palatbol", ui-sans-serif, system-ui, sans-serif;
+  --font-palatia: "Palatia", ui-sans-serif, system-ui, sans-serif;
+  --font-palatita: "Palatita", ui-sans-serif, system-ui, sans-serif;
+  --font-chopin-light: "Chopin-Light", ui-sans-serif, system-ui, sans-serif;
+
+  /* Aqui se escriben los colores personalizados. */
+
+  --color-amarillo-claro: #fbde9d;
+  --color-amarillo-oscuro: #ffd95d;
+  --color-verde-oscuro: #404c37;
+  --color-verde-claro: #b0ba66;
+  --color-rosa-claro: #962f57;
+  --color-rosa-oscuro: #7f1837;
+
+  /* Aqui se declara la animacion typewriter personalizada. */
+
+  @keyframes typing {
+    from {
+      width: 0;
+    }
+    to {
+      width: 100%;
+    }
+  }
+  @keyframes blink {
+    50% {
+      border-color: transparent;
+    }
+  }
+  --animate-typing: typing 4s steps(90, end) forwards;
+
+  @keyframes reveal {
+    from {
+      mask-position: 150%;
+      opacity: 0;
+    }
+    to {
+      mask-position: 0%;
+      opacity: 1;
+    }
+  }
+  --animate-reveal: reveal 1s ease-in-out forwards;
+}
+
+.mask-reveal {
+  -webkit-mask-image: linear-gradient(to right, black 50%, transparent 100%);
+  mask-image: linear-gradient(to right, black 50%, transparent 100%);
+  mask-size: 300%;
+  mask-repeat: no-repeat;
+  opacity: 0;
+}
