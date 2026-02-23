@@ -1,9 +1,15 @@
-<div class="w-full">
-    <div class="w-1/2">
-        <div class="flex flex-col mt-5 pl-3.5 md:pl-8 lg:pl-10 xl:pl-13">
-            <span class="ml-10 font-palatia text-xs md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl">CREADORA</span>
-            <span class="ml-10 font-edwardian text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl">Digital</span>
-            <span class="mt-5 mb-25 p-5 mx-10 font-libre-franklin-variable text-2xl">
+---
+import { Image } from 'astro:assets';
+import digitalImage from '../assets/images/digitaldesigner.webp';
+
+---
+
+<div class="w-full flex flex-col md:flex-row">
+    <div class="w-full md:w-1/2 flex justify-center">
+        <div class="flex flex-col mt-5 pl-3.5 md:pl-8 lg:pl-10 xl:pl-13 max-w-xl">
+            <span class="self-center font-palatia text-xs md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl">CREADORA</span>
+            <span class="self-center font-edwardian text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl">Digital</span>
+            <span class="mt-5 mb-25 sm:p-5 sm:mx-10 font-libre-franklin-variable text-2xl text-justify">
                 <p>Creo firmemente que el contenido de calidad es el puente entre el conocimiento y la comunidad. 
                 Como creadora digital, mi misión es transformar la experiencia técnica de mis clientes en una narrativa visual ideal, 
                 estratégica y de alto impacto. No me limito a diseñar; asumo la dirección creativa integral de la presencia digital. 
@@ -17,5 +23,10 @@
             </span>
         </div>
     </div>
-    <div class="w-1/2"></div>
+    <div class="w-full md:w-1/2 flex justify-center items-center">
+        <Image
+      class="w-full h-auto object-cover"
+      src={digitalImage}
+      alt="Digital Designer Image" 
+    />
 </div>
