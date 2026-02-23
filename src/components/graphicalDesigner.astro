@@ -1,9 +1,158 @@
 ---
-import 
+import { Image } from 'astro:assets';
+import carrusel1 from '../assets/images/carrusel/carrusel1.webp';
+import carrusel2 from '../assets/images/carrusel/carrusel2.webp';
+import carrusel3 from '../assets/images/carrusel/carrusel3.webp';
+
+const images = [carrusel1, carrusel2, carrusel3];
 ---
 
-<div class="w-full h-full">
-    <div class="w-1/5"></div>
-    <div class="w-2/5"></div>
-    <div class="w-2/5"></div>
+<div class="w-full h-full mt-5 flex items-center gap-5">
+    <div class="w-full md:w-2/3 h-4/5 relative overflow-hidden bg-black flex items-center justify-center">
+        <!-- Carrusel Container -->
+        <div class="carousel-wrapper relative w-full h-full">
+            <div class="carousel-track h-full flex transition-transform duration-700 ease-out" id="carouselTrack" style="width: 300%; will-change: transform;">
+                {images.map((img, index) => (
+                    <div class="carousel-slide w-1/3 h-full flex-shrink-0 flex items-center justify-center">
+                        <img
+                            src={img.src}
+                            alt={`Slide ${index + 1}`}
+                            class="w-full h-full object-cover"
+                        />
+                    </div>
+                ))}
+            </div>
+
+            <!-- Indicadores Circulares -->
+            <div class="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex gap-3 z-10">
+                {images.map((_, index) => (
+                    <button
+                        class="carousel-indicator w-3 h-3 rounded-full bg-white/40 transition-all duration-300 hover:bg-white/60 cursor-pointer"
+                        data-index={index}
+                        aria-label={`Go to slide ${index + 1}`}
+                        type="button"
+                    ></button>
+                ))}
+            </div>
+        </div>
+    </div>
+    <div class="w-full md:w-1/3">
+    <div class="flex flex-col mt-5 pl-3.5 md:pl-8 lg:pl-10 xl:pl-13 max-w-3xl">
+            <span class="self-left ml-2 md:ml-5 font-palatia text-xs md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl">DISEÑADORA</span>
+            <span class="self-left ml-2 md:ml-5 font-edwardian text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl">Grafica</span>
+            <span class="mt-5 sm:mt-5 mb-25 p-3 md:p-2 md:mx-5 font-libre-franklin-variable text-xs sm:text-xl text-justify">
+                <p class="mt-5">Creo firmemente que el contenido de calidad es el puente entre el conocimiento y la comunidad. 
+                Como creadora digital, mi misión es transformar la experiencia técnica de mis clientes en una narrativa visual ideal, 
+                estratégica y de alto impacto. No me limito a diseñar; asumo la dirección creativa integral de la presencia digital. 
+                Me involucro en cada etapa del proceso: desde la conceptualización de ideas fuera de lo común y la estructuración estratégica 
+                de la comunicación, hasta la dirección de cámara, guionismo y edición final.</p>
+
+                <p class="mt-5">Mi enfoque se basa en el orden y la claridad que trasmitirá el perfil, asegurando que cada publicación no solo sea visualmente linda, 
+                sino que cumpla un objetivo estratégico de crecimiento. Ayudo a profesionales a proyectar su esencia más auténtica, utilizando el espacio 
+                correcto para mostrar su vibra real y para consolidar una comunidad leal. Construyo un ecosistema digital con alma, donde el contenido estratégico 
+                se convierte en una herramienta poderosa para transformar producto y profesionalizar marca.</p>
+            </span>
+        </div></div>
 </div>
+
+<script>
+    const track = document.getElementById('carouselTrack') as HTMLElement;
+    const indicators = document.querySelectorAll('.carousel-indicator');
+    const slides = document.querySelectorAll('.carousel-slide');
+    
+    let currentIndex = 0;
+    const totalSlides = slides.length;
+    let autoplayInterval: NodeJS.Timeout;
+    let isAutoPlaying = true;
+
+    // Función para actualizar el carrusel - versión simplificada y robusta
+    function updateCarousel(index: number, smooth: boolean = true) {
+        // Calcular el índice válido (0 a totalSlides-1)
+        currentIndex = ((index % totalSlides) + totalSlides) % totalSlides;
+        
+        // Calcular el desplazamiento: (100/totalSlides)% por cada slide
+        const slidePercentage = 100 / totalSlides;
+        const translateX = -currentIndex * slidePercentage;
+        
+        if (smooth) {
+            track.style.transition = 'transform 0.7s ease-out';
+        } else {
+            track.style.transition = 'none';
+        }
+        
+        track.style.transform = `translateX(${translateX}%)`;
+
+        // Actualizar indicadores
+        indicators.forEach((indicator, i) => {
+            if (i === currentIndex) {
+                indicator.classList.add('bg-white');
+                indicator.classList.remove('bg-white/40');
+            } else {
+                indicator.classList.remove('bg-white');
+                indicator.classList.add('bg-white/40');
+            }
+        });
+    }
+
+    // Función para avanzar automáticamente
+    function startAutoplay() {
+        if (isAutoPlaying) {
+            autoplayInterval = setInterval(() => {
+                updateCarousel(currentIndex + 1, true);
+            }, 4000); // Cambia cada 4 segundos
+        }
+    }
+
+    // Pausar autoplay cuando el usuario interactúa
+    function pauseAutoplay() {
+        clearInterval(autoplayInterval);
+        isAutoPlaying = true;
+        setTimeout(startAutoplay, 6000); // Reinicia después de 6 segundos
+    }
+
+    // Event listeners para indicadores
+    indicators.forEach((indicator) => {
+        indicator.addEventListener('click', (e) => {
+            const target = e.target as HTMLElement;
+            const dataIndex = target.getAttribute('data-index');
+            if (dataIndex !== null) {
+                const index = parseInt(dataIndex, 10);
+                updateCarousel(index, true);
+                pauseAutoplay();
+            }
+        });
+    });
+
+    // Inicializar en el siguiente tick para asegurar que el DOM está listo
+    setTimeout(() => {
+        updateCarousel(0, false); // Inicia sin animación
+        startAutoplay();
+    }, 100);
+
+    // Pausa al pasar el mouse
+    const wrapper = document.querySelector('.carousel-wrapper');
+    if (wrapper) {
+        wrapper.addEventListener('mouseenter', () => {
+            isAutoPlaying = false;
+            clearInterval(autoplayInterval);
+        });
+        wrapper.addEventListener('mouseleave', () => {
+            isAutoPlaying = true;
+            startAutoplay();
+        });
+    }
+</script>
+
+<style>
+    .carousel-track {
+        will-change: transform;
+    }
+
+    .carousel-indicator {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .carousel-indicator:hover {
+        transform: scale(1.2);
+    }
+</style>
