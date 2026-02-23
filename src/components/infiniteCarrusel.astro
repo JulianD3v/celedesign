@@ -1,0 +1,64 @@
+---
+import img1 from '../assets/images/infinite-carrusel/1.webp';
+import img2 from '../assets/images/infinite-carrusel/2.webp';
+import img3 from '../assets/images/infinite-carrusel/3.webp';
+import img4 from '../assets/images/infinite-carrusel/4.webp';
+import img5 from '../assets/images/infinite-carrusel/5.webp';
+
+const images = [img1, img2, img3, img4, img5];
+// Duplicamos las imágenes para crear el efecto infinito seamless
+const doubledImages = [...images, ...images];
+---
+
+<div class="w-full h-full mt-10 overflow-hidden bg-black">
+    <div class="infinite-scroll-container w-full">
+        <div class="infinite-scroll-track flex">
+            {doubledImages.map((img, index) => (
+                <div class="infinite-scroll-slide flex-shrink-0" style="width: 100%; aspect-ratio: auto;">
+                    <img
+                        src={img.src}
+                        alt={`Slide ${(index % images.length) + 1}`}
+                        class="w-full h-full object-cover"
+                    />
+                </div>
+            ))}
+        </div>
+    </div>
+</div>
+
+<style>
+    .infinite-scroll-container {
+        width: 100%;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .infinite-scroll-track {
+        display: flex;
+        animation: scroll-infinite 20s linear infinite;
+        will-change: transform;
+    }
+
+    .infinite-scroll-slide {
+        flex: 0 0 40vw;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .infinite-scroll-slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    @keyframes scroll-infinite {
+        0% {
+            transform: translateX(0);
+        }
+        100% {
+            transform: translateX(-50%);
+        }
+    }
+
+</style>
