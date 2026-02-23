@@ -36,7 +36,7 @@ const images = [carrusel1, carrusel2, carrusel3];
             </div>
         </div>
     </div>
-    <div class="w-full md:w-1/3">
+    <div class="w-full h-full md:w-1/3">
     <div class="flex flex-col mt-5 pl-3.5 md:pl-8 lg:pl-10 xl:pl-13 max-w-3xl">
             <span class="self-left ml-2 md:ml-5 font-palatia text-xs md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl">DISEÑADORA</span>
             <span class="self-left ml-2 md:ml-5 font-edwardian text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl">Grafica</span>
@@ -62,17 +62,23 @@ const images = [carrusel1, carrusel2, carrusel3];
     
     let currentIndex = 0;
     const totalSlides = slides.length;
-    let autoplayInterval: NodeJS.Timeout;
+    let autoplayInterval: ReturnType<typeof setInterval>;
     let isAutoPlaying = true;
+    let isTransitioning = false;
 
-    // Función para actualizar el carrusel - versión simplificada y robusta
+    // Función para actualizar el carrusel - versión mejorada con loop infinito correcto
     function updateCarousel(index: number, smooth: boolean = true) {
-        // Calcular el índice válido (0 a totalSlides-1)
-        currentIndex = ((index % totalSlides) + totalSlides) % totalSlides;
+        if (isTransitioning && smooth) return; // Evitar transiciones simultáneas
+        
+        isTransitioning = smooth;
+        
+        // Calcular el siguiente índice de forma simple
+        let nextIndex = index % totalSlides;
+        if (nextIndex < 0) nextIndex += totalSlides;
         
         // Calcular el desplazamiento: (100/totalSlides)% por cada slide
         const slidePercentage = 100 / totalSlides;
-        const translateX = -currentIndex * slidePercentage;
+        const translateX = -nextIndex * slidePercentage;
         
         if (smooth) {
             track.style.transition = 'transform 0.7s ease-out';
@@ -81,6 +87,7 @@ const images = [carrusel1, carrusel2, carrusel3];
         }
         
         track.style.transform = `translateX(${translateX}%)`;
+        currentIndex = nextIndex;
 
         // Actualizar indicadores
         indicators.forEach((indicator, i) => {
@@ -92,11 +99,19 @@ const images = [carrusel1, carrusel2, carrusel3];
                 indicator.classList.add('bg-white/40');
             }
         });
+
+        if (smooth) {
+            setTimeout(() => {
+                isTransitioning = false;
+            }, 700);
+        } else {
+            isTransitioning = false;
+        }
     }
 
     // Función para avanzar automáticamente
     function startAutoplay() {
-        if (isAutoPlaying) {
+        if (isAutoPlaying && !isTransitioning) {
             autoplayInterval = setInterval(() => {
                 updateCarousel(currentIndex + 1, true);
             }, 4000); // Cambia cada 4 segundos
@@ -115,7 +130,7 @@ const images = [carrusel1, carrusel2, carrusel3];
         indicator.addEventListener('click', (e) => {
             const target = e.target as HTMLElement;
             const dataIndex = target.getAttribute('data-index');
-            if (dataIndex !== null) {
+            if (dataIndex !== null && !isTransitioning) {
                 const index = parseInt(dataIndex, 10);
                 updateCarousel(index, true);
                 pauseAutoplay();
