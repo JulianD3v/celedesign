@@ -18,7 +18,7 @@ const doubledImages = [...images, ...images];
                     <img
                         src={img.src}
                         alt={`Slide ${(index % images.length) + 1}`}
-                        class="w-full h-full px-3 object-cover"
+                        class="w-full h-full px-2 md:px-3 object-cover"
                     />
                 </div>
             ))}
@@ -50,7 +50,7 @@ const doubledImages = [...images, ...images];
            five unique images duplicated to ten slides, the content
            width becomes exactly two container widths, ensuring there
            is no gap as the track rolls. */
-        flex: 0 0 20%;
+        flex: 0 0 40%;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -62,6 +62,12 @@ const doubledImages = [...images, ...images];
         object-fit: cover;
     }
 
+    @media (min-width:768px){
+        .infinite-scroll-slide {
+            flex: 0 0 20%;
+        }
+    }
+
     /* animation replaced with JS-driven transform; keyframes
        no longer required */
 
@@ -70,9 +76,12 @@ const doubledImages = [...images, ...images];
 <script type="module" client:load>
   // continuous scroll logic using requestAnimationFrame
   const track = document.querySelector('.infinite-scroll-track');
+  
   if (track) {
     let offset = 0;
-    let speed = 2.5; // pixels per frame, adjust as desired
+
+    const isMobile = window.innerWidth < 768;
+    let speed = isMobile ? 0.8 : 2.5; // pixels per frame, adjust as desired
 
     function step() {
       offset += speed;

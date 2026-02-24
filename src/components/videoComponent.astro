@@ -2,9 +2,14 @@
 import video from '../assets/videos/presentation.mp4';
 ---
 
-<div class="w-full h-full mt-5">
-  <video class="w-full h-full object-cover" autoplay loop muted playsinline>
+<div class="relative w-full h-[30vh] md:min-h-[100svh] md:mt-5 overflow-hidden bg-black">
+  <video 
+    class="absolute inset-0 w-full h-full object-cover"
+    autoplay 
+    loop 
+    muted 
+    playsinline
+  >
     <source src={video} type="video/mp4">
-    El navegador no soporta la reproducción de videos.
   </video>
 </div>
