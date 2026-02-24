@@ -73,29 +73,41 @@ const doubledImages = [...images, ...images];
 
 </style>
 
-<script type="module" client:load>
-  // continuous scroll logic using requestAnimationFrame
-  const track = document.querySelector('.infinite-scroll-track');
-  
-  if (track) {
-    let offset = 0;
+<script>
+  window.addEventListener('load', () => {
+    const track = document.querySelector<HTMLElement>('.infinite-scroll-track') || null;
 
+    if (!track) return;
+
+    let offset = 0;
     const isMobile = window.innerWidth < 768;
-    let speed = isMobile ? 0.8 : 2.5; // pixels per frame, adjust as desired
+    let speed = isMobile ? 0.8 : 2.5;
+    let running = false;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          running = entry.isIntersecting;
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(track);
 
     function step() {
-      offset += speed;
-      const half = track.scrollWidth / 2;
-      if (offset >= half) {
-        // wrap around by subtracting half; the content is duplicated
-        // so this jump is visually invisible
-        offset -= half;
+      if (running) {
+        offset += speed;
+
+        const half = track.scrollWidth / 2;
+        if (offset >= half) offset -= half;
+
+        track.style.transform = `translateX(-${offset}px)`;
       }
-      track.style.transform = `translateX(-${offset}px)`;
+
       requestAnimationFrame(step);
     }
 
-    // start the loop once layout has been calculated
     requestAnimationFrame(step);
-  }
+  });
 </script>

@@ -23,14 +23,13 @@
 </style>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    // Forzar inicio arriba
+  window.addEventListener('load', () => {
     if ('scrollRestoration' in history) {
       history.scrollRestoration = 'manual';
     }
+
     window.scrollTo(0, 0);
 
-    // Intersection Observer
     const elements = document.querySelectorAll(
       '.reveal, .reveal-left, .reveal-right'
     );
