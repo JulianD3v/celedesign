@@ -10,7 +10,7 @@ const images = [img1, img2, img3, img4, img5];
 const doubledImages = [...images, ...images];
 ---
 
-<div class="w-full h-full mt-10 overflow-hidden bg-black">
+<div class="w-full h-full mt-10 overflow-hidden">
     <div class="infinite-scroll-container w-full">
         <div class="infinite-scroll-track flex">
             {doubledImages.map((img, index) => (
@@ -18,7 +18,7 @@ const doubledImages = [...images, ...images];
                     <img
                         src={img.src}
                         alt={`Slide ${(index % images.length) + 1}`}
-                        class="w-full h-full object-cover"
+                        class="w-full h-full px-3 object-cover"
                     />
                 </div>
             ))}
@@ -35,12 +35,22 @@ const doubledImages = [...images, ...images];
 
     .infinite-scroll-track {
         display: flex;
-        animation: scroll-infinite 20s linear infinite;
+        /* no fixed width; the track will size itself to the total
+           width of the slides. after duplicating the images the
+           scrollWidth will naturally be twice the container width,
+           so calculating `half = track.scrollWidth / 2` continues to
+           work perfectly. removing the hardcoded 200% prevents the
+           extra empty region that was appearing when the slides
+           didn’t actually fill that space. */
         will-change: transform;
     }
 
     .infinite-scroll-slide {
-        flex: 0 0 40vw;
+        /* each slide takes one fifth of the visible area (20%). with
+           five unique images duplicated to ten slides, the content
+           width becomes exactly two container widths, ensuring there
+           is no gap as the track rolls. */
+        flex: 0 0 20%;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -52,13 +62,31 @@ const doubledImages = [...images, ...images];
         object-fit: cover;
     }
 
-    @keyframes scroll-infinite {
-        0% {
-            transform: translateX(0);
-        }
-        100% {
-            transform: translateX(-50%);
-        }
-    }
+    /* animation replaced with JS-driven transform; keyframes
+       no longer required */
 
 </style>
+
+<script type="module" client:load>
+  // continuous scroll logic using requestAnimationFrame
+  const track = document.querySelector('.infinite-scroll-track');
+  if (track) {
+    let offset = 0;
+    let speed = 2.5; // pixels per frame, adjust as desired
+
+    function step() {
+      offset += speed;
+      const half = track.scrollWidth / 2;
+      if (offset >= half) {
+        // wrap around by subtracting half; the content is duplicated
+        // so this jump is visually invisible
+        offset -= half;
+      }
+      track.style.transform = `translateX(-${offset}px)`;
+      requestAnimationFrame(step);
+    }
+
+    // start the loop once layout has been calculated
+    requestAnimationFrame(step);
+  }
+</script>
