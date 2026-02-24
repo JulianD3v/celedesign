@@ -6,108 +6,169 @@ import img4 from '../assets/images/infinite-carrusel/4.webp';
 import img5 from '../assets/images/infinite-carrusel/5.webp';
 
 const images = [img1, img2, img3, img4, img5];
-// Duplicamos las imágenes para crear el efecto infinito seamless
-const doubledImages = [...images, ...images];
+const tripledImages = [...images, ...images, ...images];
+const slideCount = images.length; // Esto es 5
 ---
 
 <div class="reveal w-full mt-10 overflow-hidden">
-    <div class="infinite-scroll-container w-full">
-        <div class="infinite-scroll-track flex">
-            {doubledImages.map((img, index) => (
-                <div class="infinite-scroll-slide flex-shrink-0" style="width: 100%; aspect-ratio: auto;">
-                    <img
-                        src={img.src}
-                        alt={`Slide ${(index % images.length) + 1}`}
-                        class="w-full h-full px-2 md:px-3 object-cover"
-                    />
-                </div>
-            ))}
+  <div class="infinite-scroll-container">
+    <div class="infinite-scroll-track">
+      {tripledImages.map((img, index) => (
+        <div class="infinite-scroll-slide" key={index}>
+          <div class="image-wrapper">
+            <img
+              src={img.src}
+              alt={`Slide ${(index % images.length) + 1}`}
+              loading="eager"
+              decoding="async"
+              width="max-content"
+              height="450"
+            />
+          </div>
         </div>
+      ))}
     </div>
+  </div>
 </div>
 
 <style>
-    .infinite-scroll-container {
-        width: 100%;
-        overflow: hidden;
-        position: relative;
-    }
+.infinite-scroll-container {
+  overflow: hidden;
+  width: 100%;
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 10%,
+    black 90%,
+    transparent 100%
+  );
+}
 
+.infinite-scroll-track {
+  display: flex;
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Estilo base para todos los slides */
+.infinite-scroll-slide {
+  flex: 0 0 20%; /* 5 slides por vista en desktop */
+  padding-right: 20px;
+  box-sizing: border-box;
+}
+
+/* DESKTOP - más rápido (20s en lugar de 40s) */
+@media (min-width: 1025px) {
+  .infinite-scroll-track {
+    animation: scroll-desktop 20s linear infinite;
+  }
+}
+
+/* Tablet */
+@media (max-width: 1024px) and (min-width: 768px) {
+  .infinite-scroll-slide {
+    flex: 0 0 25%; /* 4 slides por vista */
+  }
+  .infinite-scroll-track {
+    animation: scroll-tablet 20s linear infinite;
+  }
+}
+
+/* MÓVIL - CORREGIDO y MÁS RÁPIDO */
+@media (max-width: 767px) {
+  .infinite-scroll-slide {
+    flex: 0 0 33.333%; /* 3 slides por vista en móvil */
+    padding-right: 15px;
+  }
+  .infinite-scroll-track {
+    animation: scroll-mobile 12s linear infinite; /* EL DOBLE DE RÁPIDO */
+  }
+}
+
+/* Móviles pequeños */
+@media (max-width: 480px) {
+  .infinite-scroll-slide {
+    flex: 0 0 50%; /* 2 slides por vista */
+    padding-right: 12px;
+  }
+  .infinite-scroll-track {
+    animation: scroll-small-mobile 15s linear infinite; /* Ajustado para 2 slides */
+  }
+}
+
+.image-wrapper {
+  position: relative;
+  width: 100%;
+  padding-bottom: 150%;
+  overflow: hidden;
+  border-radius: 8px;
+  background-color: #f5f5f5;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+.image-wrapper img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.image-wrapper:hover img {
+  transform: scale(1.05);
+}
+
+/* ANIMACIONES ESPECÍFICAS PARA CADA BREAKPOINT */
+
+/* Desktop: 5 slides al 20% cada uno = -100% */
+@keyframes scroll-desktop {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-100%, 0, 0); }
+}
+
+/* Tablet: 4 slides al 25% cada uno = -125% (5 slides * 25%) */
+@keyframes scroll-tablet {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-125%, 0, 0); }
+}
+
+/* Móvil: 3 slides al 33.333% cada uno = -166.666% (5 slides * 33.333%) */
+@keyframes scroll-mobile {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-166.666%, 0, 0); }
+}
+
+/* Móvil pequeño: 2 slides al 50% cada uno = -250% (5 slides * 50%) */
+@keyframes scroll-small-mobile {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-250%, 0, 0); }
+}
+
+/* Pausar al hacer hover */
+.infinite-scroll-container:hover .infinite-scroll-track {
+  animation-play-state: paused;
+}
+
+/* Reducir movimiento si el usuario lo prefiere */
+@media (prefers-reduced-motion: reduce) {
+  .infinite-scroll-track {
+    animation-duration: 60s !important;
+  }
+}
+
+/* Fix para Safari */
+@media not all and (min-resolution: 0.001dpcm) {
+  @media {
     .infinite-scroll-track {
-        display: flex;
-        /* no fixed width; the track will size itself to the total
-           width of the slides. after duplicating the images the
-           scrollWidth will naturally be twice the container width,
-           so calculating `half = track.scrollWidth / 2` continues to
-           work perfectly. removing the hardcoded 200% prevents the
-           extra empty region that was appearing when the slides
-           didn’t actually fill that space. */
-        will-change: transform;
+      transform: translate3d(0, 0, 0);
     }
-
-    .infinite-scroll-slide {
-        /* each slide takes one fifth of the visible area (20%). with
-           five unique images duplicated to ten slides, the content
-           width becomes exactly two container widths, ensuring there
-           is no gap as the track rolls. */
-        flex: 0 0 40%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .infinite-scroll-slide img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-
-    @media (min-width:768px){
-        .infinite-scroll-slide {
-            flex: 0 0 20%;
-        }
-    }
-
-    /* animation replaced with JS-driven transform; keyframes
-       no longer required */
-
+  }
+}
 </style>
-
-<script>
-  window.addEventListener('load', () => {
-    const track = document.querySelector<HTMLElement>('.infinite-scroll-track') || null;
-
-    if (!track) return;
-
-    let offset = 0;
-    const isMobile = window.innerWidth < 768;
-    let speed = isMobile ? 0.8 : 2.5;
-    let running = false;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          running = entry.isIntersecting;
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    observer.observe(track);
-
-    function step() {
-      if (running) {
-        offset += speed;
-
-        const half = track.scrollWidth / 2;
-        if (offset >= half) offset -= half;
-
-        track.style.transform = `translateX(-${offset}px)`;
-      }
-
-      requestAnimationFrame(step);
-    }
-
-    requestAnimationFrame(step);
-  });
-</script>
