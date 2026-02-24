@@ -22,22 +22,31 @@
 	}
 </style>
 
-<script client:load>
-  const elements = document.querySelectorAll(
-    '.reveal, .reveal-left, .reveal-right'
-  );
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Forzar inicio arriba
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+    window.scrollTo(0, 0);
 
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('reveal-active');
-          observer.unobserve(entry.target);
-        }
-      });
-    },
-    { threshold: 0.15 }
-  );
+    // Intersection Observer
+    const elements = document.querySelectorAll(
+      '.reveal, .reveal-left, .reveal-right'
+    );
 
-  elements.forEach((el) => observer.observe(el));
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('reveal-active');
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+
+    elements.forEach((el) => observer.observe(el));
+  });
 </script>

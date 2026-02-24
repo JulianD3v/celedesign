@@ -125,21 +125,25 @@
   opacity: 0;
   transform: translateY(40px);
   transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform, opacity;
 }
 
 .reveal-left {
   opacity: 0;
   transform: translateX(-60px);
   transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform, opacity;
 }
 
 .reveal-right {
   opacity: 0;
   transform: translateX(60px);
   transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform, opacity;
 }
 
 .reveal-active {
   opacity: 1;
   transform: translate(0, 0);
+  will-change: transform, opacity;
 }
